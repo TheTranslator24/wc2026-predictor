@@ -1,0 +1,51 @@
+# ==============================================================
+# requirements.txt  —  WC2026 Match Predictor
+# Python 3.13 | MacBook Pro M1 | install inside a venv
+#
+# Install with:   pip install -r requirements.txt
+#
+# IMPORTANT: PyTorch is intentionally NOT listed here. It must be
+# installed separately so pip resolves the correct Apple-Silicon
+# (MPS) build:   pip install torch torchvision torchaudio
+# Pinning torch here can pull a wheel without Metal support.
+#
+# Version style: "~=" is the compatible-release operator.
+#   numpy~=2.1.0  means ">=2.1.0, <2.2.0" — patch updates allowed,
+#   minor/major locked. This gives reproducibility (a security and
+#   science requirement) without freezing you on a broken patch.
+# ==============================================================
+
+# ── Core numerical / data ────────────────────────────────────
+numpy~=2.1.0            # N-dimensional arrays; the base of everything below
+pandas~=2.2.0           # DataFrames for the match results table
+scipy~=1.14.0           # Wilson confidence intervals, statistical helpers
+
+# ── Machine learning ─────────────────────────────────────────
+scikit-learn~=1.5.0     # train/test split, metrics, class-weight helper
+xgboost~=2.1.0          # Gradient-boosted trees (the tabular model)
+shap~=0.46.0            # Exact SHAP explanations for the XGBoost model
+
+# ── Visualization ────────────────────────────────────────────
+matplotlib~=3.9.0       # PNG charts (probability bars, Monte Carlo dists)
+seaborn~=0.13.0         # Nicer statistical chart styling on top of matplotlib
+
+# ── Secure data download ─────────────────────────────────────
+requests~=2.33.0        # HTTPS downloads with timeouts + SSL verification (CVE fix: 2.32.5->2.33.0)
+certifi~=2024.8.30      # Up-to-date root SSL certificate bundle
+
+# ── Configuration / secrets hygiene ──────────────────────────
+python-dotenv~=1.2.2    # Loads .env so secrets never get hard-coded (CVE fix: 1.0.1->1.2.2)
+
+# ── Utilities ────────────────────────────────────────────────
+joblib~=1.4.0           # Fast model (de)serialization where pickle is overkill
+tqdm~=4.66.0            # Progress bars for long loops
+psutil~=6.0.0           # Read TRUE memory use (RSS) — fixes the false leak alarm
+
+# ── Security / quality tooling (dev) ─────────────────────────
+bandit~=1.7.0           # Static security scanner for Python source
+pip-audit~=2.7.0        # Flags known CVEs in your installed dependencies
+black~=26.3.1           # Deterministic code formatter (CVE fix: 24.8.0->26.3.1)
+flake8~=7.1.0           # Lint / style checks
+mypy~=1.11.0            # Static type checking
+pytest~=9.0.3           # Test runner (security test suite) (CVE fix: 8.3.5->9.0.3)
+pytest-cov~=5.0.0       # Test coverage reporting
