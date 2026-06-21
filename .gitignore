@@ -45,3 +45,6 @@ logs/
 release_artifacts/
 data/prediction_log.csv
 data/tournament_results.csv
+WC2026_Tracker.xlsx
+data/results_batch.csv
+data/results_batch.csv
