@@ -41,3 +41,7 @@ logs/
 .vscode/
 .idea/
 *.swp
+
+release_artifacts/
+data/prediction_log.csv
+data/tournament_results.csv

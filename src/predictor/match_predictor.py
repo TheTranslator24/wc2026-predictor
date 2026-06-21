@@ -25,6 +25,7 @@ from src.data.features import EloCalculator, FeatureEngineer
 from src.models.xgboost_model import XGBoostPredictor
 from src.models.lstm_model import LSTMTrainer
 from src.models.ensemble import EnsemblePredictor
+from src.tracking.results_store import apply_to_elo
 
 logger = logging.getLogger("wc2026.predictor.main")
 
@@ -66,6 +67,7 @@ class WC2026Predictor:
         logger.info("[2/5] Computing Elo ratings (chronological)...")
         self.elo_calc    = EloCalculator()
         results_with_elo = self.elo_calc.calculate_all_elo(self.results_df)
+        apply_to_elo(self.elo_calc)
 
         logger.info("[3/5] Initializing feature engineer...")
         self.feat_eng = FeatureEngineer(results_with_elo)
