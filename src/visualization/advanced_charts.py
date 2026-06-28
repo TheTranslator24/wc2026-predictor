@@ -127,7 +127,7 @@ def plot_match_colored(prediction: dict, save_path: Optional[Path] = None, show:
     # highlight the predicted outcome
     out = prediction["predicted_outcome"]
     hi = 0 if "Home" in out else (2 if "Away" in out else 1)
-    bars[hi].set_edgecolor("#ffd700"); bars[hi].set_linewidth(3)
+    bars[hi].set_edgecolor(TXT); bars[hi].set_linewidth(3)
 
     for bar, p in zip(bars, probs):
         ax.text(bar.get_width() + 1.2, bar.get_y() + bar.get_height() / 2,
@@ -143,13 +143,19 @@ def plot_match_colored(prediction: dict, save_path: Optional[Path] = None, show:
 
     ax.set_xlim(0, 108)
     ax.set_title(f"{label(home)}  vs  {label(away)}\n"
-                 f"FIFA World Cup 2026  ·  {m['date']}  ·  predicted: {out} "
+                 f"FIFA World Cup 2026  ·  {m['date']}  ·  model output: {out.capitalize()} "
                  f"({prediction['confidence']:.0%})",
                  color=TXT, fontsize=13, pad=12)
     ax.set_xlabel("Probability (%)", color=GREY)
     ax.tick_params(colors=GREY)
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
+
+    fig.subplots_adjust(bottom=0.18)
+    fig.text(0.5, 0.02,
+             "For research and education only. Not betting advice and not a "
+             "prediction of any specific outcome. Football is uncertain.",
+             ha="center", color=GREY, fontsize=7)
 
     if save_path is None:
         save_path = OUTPUTS_DIR / "predictions" / \

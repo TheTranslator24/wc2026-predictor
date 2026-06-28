@@ -52,7 +52,8 @@ FLAGS: dict[str, str] = {
 
 
 def _flag(team: str) -> str:
-    return FLAGS.get(team, "")
+    # Titles use plain team names; emoji flags aren't in the chart font.
+    return ""
 
 
 def _save(fig: "plt.Figure", path: Path) -> None:
@@ -105,7 +106,7 @@ def plot_match_prediction(prediction: dict, save_path: Optional[Path] = None,
                  va="center", fontsize=12, color=COLORS["text"], fontweight="bold")
     outcome = prediction["predicted_outcome"]
     hi = 0 if "Home" in outcome else (2 if "Away" in outcome else 1)
-    bars[hi].set_edgecolor(COLORS["gold"]); bars[hi].set_linewidth(2.5)
+    bars[hi].set_edgecolor(COLORS["text"]); bars[hi].set_linewidth(2.5)
     ax1.set_xlim(0, 105)
     ax1.set_title("Outcome Probabilities", color=COLORS["accent"], fontsize=12, pad=8)
     ax1.set_xlabel("Probability (%)", color=COLORS["grey"]); _style_axis(ax1)
@@ -147,9 +148,9 @@ def plot_match_prediction(prediction: dict, save_path: Optional[Path] = None,
     ax4 = fig.add_subplot(gs[1, 1]); ax4.set_facecolor(BG_PANEL); ax4.axis("off")
     conf_pct = prediction["confidence"]*100
     xgb_p = prediction["xgboost_prediction"]; adj = prediction["adjustments_applied"]
-    _text(ax4, 0.5, 0.94, "PREDICTION", COLORS["accent"], 11, "bold")
-    _text(ax4, 0.5, 0.82, outcome.upper(), COLORS["gold"], 17, "bold")
-    _text(ax4, 0.5, 0.70, f"Confidence: {conf_pct:.1f}%", COLORS["text"], 11)
+    _text(ax4, 0.5, 0.94, "Simulated outcome", COLORS["accent"], 11, "bold")
+    _text(ax4, 0.5, 0.82, outcome.capitalize(), COLORS["text"], 17, "bold")
+    _text(ax4, 0.5, 0.70, f"Estimated probability: {conf_pct:.1f}%", COLORS["text"], 11)
     _text(ax4, 0.5, 0.58, "Model Breakdown (H / D / A):", COLORS["grey"], 9, "bold")
     _text(ax4, 0.5, 0.49,
           f"XGBoost: {xgb_p['home_win']*100:.1f}% / {xgb_p['draw']*100:.1f}% / {xgb_p['away_win']*100:.1f}%",
@@ -158,8 +159,11 @@ def plot_match_prediction(prediction: dict, save_path: Optional[Path] = None,
     if active:
         adj_str = "Adjustments applied:\n" + "\n".join(
             f"  {k.replace('_',' ').title()}: {v:.0%}" for k, v in active.items())
-        _text(ax4, 0.5, 0.32, adj_str, "#f39c12", 8)
-    _text(ax4, 0.5, 0.06, "Probabilistic estimate. Football is uncertain.", COLORS["grey"], 7)
+        _text(ax4, 0.5, 0.32, adj_str, COLORS["grey"], 8)
+    _text(ax4, 0.5, 0.09,
+          "For research and education only. Not betting advice and not a\n"
+          "prediction of any specific outcome. Football is uncertain.",
+          COLORS["grey"], 7)
 
     if save_path is None:
         save_path = OUTPUTS_DIR / "predictions" / \
