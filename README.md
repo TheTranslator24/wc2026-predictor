@@ -2,6 +2,10 @@
 
 A machine-learning system that predicts **win / draw / loss** outcomes for FIFA World Cup 2026 matches, built with a security-first engineering approach. It combines a gradient-boosted-tree model and a recurrent neural network into a weighted ensemble, then quantifies uncertainty with Monte Carlo simulation.
 
+> ⚠️ **Disclaimer:** This is an educational machine-learning project. Its forecasts are
+> simulated model outputs — **not betting advice** and not a prediction of any specific
+> outcome. See [DISCLAIMER.md](DISCLAIMER.md). Football is uncertain.
+
 > **Disclaimer.** Football is inherently unpredictable. The best public match-outcome models reach roughly **55–60% accuracy**, and draws are the hardest outcome to call. This project is a portfolio and learning exercise, not betting advice. Treat every number as a probability with wide error bars, not a guarantee.
 
 ---
